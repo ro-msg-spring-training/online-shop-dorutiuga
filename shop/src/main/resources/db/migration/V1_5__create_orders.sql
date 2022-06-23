@@ -1,6 +1,6 @@
 create table Orders(
 id int primary key auto_increment,
-shippedFrom int not null,
+shippedFrom int ,
 constraint FK_OrderLocation foreign key(shippedFrom) REFERENCES Location(id),
 customerId int not null,
 constraint FK_OrderCustomer foreign key(customerId) REFERENCES Customer(id),
