@@ -1,0 +1,1 @@
+drop table if exists customer, location, orderDetail, orders, product, productCategory, revenue, stock, supplier
