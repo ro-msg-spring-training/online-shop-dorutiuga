@@ -1,11 +1,18 @@
 package ro.msg.learning.shop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name ="OrderDetail")
 public class OrderDetail extends  BaseEntity{
     @ManyToOne
@@ -18,4 +25,11 @@ public class OrderDetail extends  BaseEntity{
 
     @Column(name = "quantity")
     private int quantity;
+
+    public OrderDetail(Integer productId, Integer quantity) {
+        super();
+        super.setId(productId);
+        this.quantity = quantity;
+
+    }
 }

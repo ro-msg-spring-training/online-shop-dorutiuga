@@ -35,17 +35,18 @@ public class ProductService {
         ProductDTO result = null;
         if (productToUpdate.isPresent()) {
 
-            Product updated = productToUpdate.get();
+            Product toUpdate = productToUpdate.get();
 
-            updated.setName(updateProduct.getName());
-            updated.setDescription(updateProduct.getDescription());
-            updated.setPrice(updateProduct.getPrice());
-            updated.setWeight(updateProduct.getWeight());
-            updated.setImageUrl(updateProduct.getImageUrl());
-            updated.setProductCategory(CategoryMapper.fromDtoToEntity(updateProduct.getProductCategory()));
-            updated.setSupplier(SupplierMapper.fromDtoToEntity(updateProduct.getSupplier()));
-            Product last = productRepository.save(updated);
-            result = ProductMapper.fromEntityToDto(last);
+            toUpdate.setName(updateProduct.getName());
+            toUpdate.setDescription(updateProduct.getDescription());
+            toUpdate.setPrice(updateProduct.getPrice());
+            toUpdate.setWeight(updateProduct.getWeight());
+            toUpdate.setImageUrl(updateProduct.getImageUrl());
+            toUpdate.setProductCategory(CategoryMapper.fromDtoToEntity(updateProduct.getProductCategory()));
+            toUpdate.setSupplier(SupplierMapper.fromDtoToEntity(updateProduct.getSupplier()));
+
+            Product updated = productRepository.save(toUpdate);
+            result = ProductMapper.fromEntityToDto(updated);
         }
         return result;
     }
@@ -56,7 +57,7 @@ public class ProductService {
 
     public final ProductDTO getProductById(Integer id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
-        if (!optionalProduct.isPresent()) {
+        if (optionalProduct.isEmpty()) {
             LOGGER.error("The Product with" + id + " does not exist");
         }
         return ProductMapper.fromEntityToDto(optionalProduct.get());
