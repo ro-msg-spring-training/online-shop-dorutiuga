@@ -11,9 +11,9 @@ public class OrderMapper {
 
         return new OrderDTO(
                 order.getOrderedProducts()
-                .stream()
-                .map(OrderDetailMapper::fromEntityToDto)
-                .collect(Collectors.toList()),
+                        .stream()
+                        .map(OrderDetailMapper::fromEntityToDto)
+                        .collect(Collectors.toList()),
                 order.getCreatedAt(),
 
                 AddressMapper.fromEntityToDto(order.getAddressCountry(),

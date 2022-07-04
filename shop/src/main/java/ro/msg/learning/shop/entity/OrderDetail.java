@@ -1,6 +1,5 @@
 package ro.msg.learning.shop.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,8 +12,8 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name ="OrderDetail")
-public class OrderDetail extends  BaseEntity{
+@Table(name = "OrderDetail")
+public class OrderDetail extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "orderId")
     private Orders order;

@@ -1,7 +1,6 @@
 package ro.msg.learning.shop.entity;
 
 import lombok.*;
-import ro.msg.learning.shop.dto.CategoryDTO;
 
 import javax.persistence.*;
 import java.util.List;

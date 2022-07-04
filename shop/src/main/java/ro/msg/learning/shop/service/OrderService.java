@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderService {
     @Autowired
-    private  OrdersRepository ordersRepository;
+    private OrdersRepository ordersRepository;
 
     @Autowired
     private LocationStrategy locationStrategy;
@@ -34,45 +34,49 @@ public class OrderService {
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
-    public  List<OrderDTO> getAllOrders() {
+    public List<OrderDTO> getAllOrders() {
         return ordersRepository.findAll()
                 .stream()
-                .map(OrderMapper:: fromEntityToDto)
+                .map(OrderMapper::fromEntityToDto)
                 .collect(Collectors.toList());
     }
-    public  Orders createOrder(Orders order){
 
-            List<Stock> stocks = locationStrategy.findLocation(order);
+    public Orders createOrder(Orders order) {
 
-                    order.setShippedFrom(stocks.get(0).getLocation());
-                    order.setCreatedAt(LocalDateTime.now());
-                    order.setCustomer(customerRepository.findAll().get(0));
+        List<Stock> stocks = locationStrategy.findLocation(order);
+        try {
+            order.setShippedFrom(stocks.get(0).getLocation());
+            order.setCreatedAt(LocalDateTime.now());
+            order.setCustomer(customerRepository.findAll().get(0));
+        } catch (IndexOutOfBoundsException e) {
+            throw new IndexOutOfBoundsException("We don't have all products in stock right now");
+        }
 
         ordersRepository.save(order);
 
-            List<OrderDetail> products = order.getOrderedProducts();
+        List<OrderDetail> products = order.getOrderedProducts();
 
-            stocks.forEach(stock -> {
-                for(OrderDetail productOrdered: products){
-                    if (productOrdered.getId() == (stock.getProduct().getId())) {
-                        int quantity = stock.getQuantity() - productOrdered.getQuantity();
+        stocks.forEach(stock -> {
+            for (OrderDetail productOrdered : products) {
+                if (productOrdered.getId() == (stock.getProduct().getId())) {
+                    int quantity = stock.getQuantity() - productOrdered.getQuantity();
 
-                        Stock stockToUpdate = stockRepository.findByProductAndLocation(stock.getProduct(), stock.getLocation());
-                        stockToUpdate.setQuantity(quantity);
-                        stockRepository.save(stockToUpdate);
+                    Stock stockToUpdate = stockRepository.findByProductAndLocation(stock.getProduct(), stock.getLocation());
+                    stockToUpdate.setQuantity(quantity);
+                    stockRepository.save(stockToUpdate);
 
-                        OrderDetail orderDetailToSave = OrderDetail.builder()
-                                .order(order)
-                                .product(stock.getProduct())
-                                .quantity(productOrdered.getQuantity())
-                                .build();
+                    OrderDetail orderDetailToSave = OrderDetail.builder()
+                            .order(order)
+                            .product(stock.getProduct())
+                            .quantity(productOrdered.getQuantity())
+                            .build();
 
-                        orderDetailRepository.save(orderDetailToSave);
-                        break;
-                    }
-
+                    orderDetailRepository.save(orderDetailToSave);
+                    break;
                 }
-            });
-            return order;
+
+            }
+        });
+        return order;
     }
 }

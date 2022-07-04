@@ -1,13 +1,9 @@
 package ro.msg.learning.shop.strategy;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import ro.msg.learning.shop.dto.OrderDTO;
-import ro.msg.learning.shop.dto.StockDTO;
 import ro.msg.learning.shop.entity.Orders;
 import ro.msg.learning.shop.entity.Stock;
 import ro.msg.learning.shop.exceptions.OutOfStockException;
-import ro.msg.learning.shop.mapper.LocationMapper;
-import ro.msg.learning.shop.mapper.ProductMapper;
 import ro.msg.learning.shop.repository.StockRepository;
 
 import java.util.ArrayList;
@@ -34,7 +30,7 @@ public class SingleLocation implements LocationStrategy {
                         if (locationList == null) {
                             locationList = new ArrayList<>();
                         }
-                        locationList.add(new Stock(stock.getLocation(),stock.getProduct(), stock.getQuantity()));
+                        locationList.add(new Stock(stock.getLocation(), stock.getProduct(), stock.getQuantity()));
                         locations.put(stock.getLocation().getId(), locationList);
                     });
                 }

@@ -11,10 +11,8 @@ import ro.msg.learning.shop.mapper.ProductMapper;
 import ro.msg.learning.shop.mapper.SupplierMapper;
 import ro.msg.learning.shop.repository.ProductRepository;
 
-
 import java.util.List;
 import java.util.Optional;
-
 import java.util.stream.Collectors;
 
 @Service
@@ -50,8 +48,9 @@ public class ProductService {
         }
         return result;
     }
+
     public void deleteProductById(Integer id) {
-       productRepository.deleteById(id);
+        productRepository.deleteById(id);
     }
 
 

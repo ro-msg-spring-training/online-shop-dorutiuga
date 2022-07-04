@@ -4,7 +4,7 @@ import ro.msg.learning.shop.dto.CustomerDTO;
 import ro.msg.learning.shop.entity.Customer;
 
 public class CustomerMapper {
-    public static CustomerDTO fromEntityToDto(Customer customer){
+    public static CustomerDTO fromEntityToDto(Customer customer) {
         return new CustomerDTO(
                 customer.getId(),
                 customer.getFirstName(),

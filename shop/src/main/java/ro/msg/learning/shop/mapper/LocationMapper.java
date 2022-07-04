@@ -4,8 +4,8 @@ import ro.msg.learning.shop.dto.LocationDTO;
 import ro.msg.learning.shop.entity.Location;
 
 public class LocationMapper {
-    public static LocationDTO fromEntityToDto(Location location){
-        return  new LocationDTO(
+    public static LocationDTO fromEntityToDto(Location location) {
+        return new LocationDTO(
                 location.getName(),
                 location.getAddressCountry(),
                 location.getAddressCity(),
@@ -13,8 +13,9 @@ public class LocationMapper {
                 location.getAddressStreet()
         );
     }
-    public static Location fromDtoToEntity(LocationDTO locationDTO){
-        return  new Location(
+
+    public static Location fromDtoToEntity(LocationDTO locationDTO) {
+        return new Location(
                 locationDTO.getName(),
                 locationDTO.getAddressCountry(),
                 locationDTO.getAddressCity(),

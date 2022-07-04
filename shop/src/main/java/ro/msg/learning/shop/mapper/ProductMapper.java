@@ -20,7 +20,7 @@ public class ProductMapper {
         );
     }
 
-    public static Product fromDtoToEntity(ProductDTO productDTO){
+    public static Product fromDtoToEntity(ProductDTO productDTO) {
         return new Product(
                 productDTO.getName(),
                 productDTO.getDescription(),

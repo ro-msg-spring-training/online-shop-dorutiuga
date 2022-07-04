@@ -11,7 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "Stock")
-public class Stock extends BaseEntity{
+public class Stock extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "productId")
     private Product product;
@@ -21,7 +21,7 @@ public class Stock extends BaseEntity{
     @Column(name = "quantity")
     private int quantity;
 
-    public Stock( Location location, Product product, int quantity) {
+    public Stock(Location location, Product product, int quantity) {
         super();
         this.location = location;
         this.product = product;

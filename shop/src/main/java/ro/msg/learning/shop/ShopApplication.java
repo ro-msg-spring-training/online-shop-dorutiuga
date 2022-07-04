@@ -2,7 +2,6 @@ package ro.msg.learning.shop;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import ro.msg.learning.shop.service.ProductService;
 
 @SpringBootApplication
 
@@ -12,7 +11,6 @@ public class ShopApplication {
         SpringApplication.run(ShopApplication.class, args);
 
     }
-
 
 
 }
