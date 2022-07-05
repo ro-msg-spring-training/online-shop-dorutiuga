@@ -6,15 +6,13 @@ import ro.msg.learning.shop.entity.Supplier;
 public class SupplierMapper {
     public static SupplierDTO fromEntityToDto(Supplier supplier) {
         return new SupplierDTO(
-                supplier.getId(),
-                supplier.getName()
+                supplier.getId()
         );
     }
 
     public static Supplier fromDtoToEntity(SupplierDTO supplierDTO) {
-        return new Supplier(
-                supplierDTO.getId(),
-                supplierDTO.getName()
-        );
+        Supplier supplier = new Supplier();
+        supplier.setId(supplierDTO.getId());
+        return supplier;
     }
 }

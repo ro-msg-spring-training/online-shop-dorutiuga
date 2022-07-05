@@ -1,37 +1,28 @@
 package ro.msg.learning.shop.mapper;
 
+import ro.msg.learning.shop.dto.AddressDTO;
 import ro.msg.learning.shop.dto.OrderDTO;
 import ro.msg.learning.shop.entity.Orders;
 
-import java.util.stream.Collectors;
-
 public class OrderMapper {
 
-    public static OrderDTO fromEntityToDto(Orders order) {
-
-        return new OrderDTO(
-                order.getOrderedProducts()
-                        .stream()
-                        .map(OrderDetailMapper::fromEntityToDto)
-                        .collect(Collectors.toList()),
-                order.getCreatedAt(),
-
-                AddressMapper.fromEntityToDto(order.getAddressCountry(),
-                        order.getAddressCounty(),
-                        order.getAddressCity(),
-                        order.getAddressStreet())
-
-        );
-
-    }
 
     public static Orders fromDtoToEntity(OrderDTO orderDTO) {
-        return new Orders(
-
-                orderDTO.getProductsOrdered(),
-                orderDTO.getCreatedAT(),
-                orderDTO.getDeliveryAddress()
-        );
+        Orders orders = new Orders();
+        orders.setOrderedProducts(OrderDetailMapper.fromListDtoToListEntity(orderDTO.getProductsOrdered()));
+        orders.setCreatedAt(orderDTO.getCreatedAT());
+        orders.setAddressCountry(orderDTO.getDeliveryAddress().getAddressCountry());
+        orders.setAddressCounty(orderDTO.getDeliveryAddress().getAddressCounty());
+        orders.setAddressCity(orderDTO.getDeliveryAddress().getAddressCity());
+        orders.setAddressStreet(orderDTO.getDeliveryAddress().getAddressStreet());
+        return orders;
     }
 
+    public static OrderDTO fromEntityToDto(Orders orders) {
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setProductsOrdered(OrderDetailMapper.fromListEntityToListDto(orders.getOrderedProducts()));
+        orderDTO.setCreatedAT(orders.getCreatedAt());
+        orderDTO.setDeliveryAddress(new AddressDTO(orders.getAddressCountry(), orders.getAddressCounty(), orders.getAddressCity(), orders.getAddressStreet()));
+        return  orderDTO;
+    }
 }

@@ -22,9 +22,4 @@ public class Supplier extends BaseEntity {
     @OneToMany(mappedBy = "supplier")
     private List<Product> products;
 
-    public Supplier(Integer id, String name) {
-        super();
-        super.setId(id);
-        this.name = name;
-    }
 }

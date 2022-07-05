@@ -10,17 +10,14 @@ import ro.msg.learning.shop.entity.ProductCategory;
 public class CategoryMapper {
     public static CategoryDTO fromEntityToDto(ProductCategory productCategory) {
         return new CategoryDTO(
-                productCategory.getId(),
-                productCategory.getName(),
-                productCategory.getDescription()
+                productCategory.getId()
+
         );
     }
 
     public static ProductCategory fromDtoToEntity(CategoryDTO categoryDTO) {
-        return new ProductCategory(
-                categoryDTO.getId(),
-                categoryDTO.getName(),
-                categoryDTO.getDescription()
-        );
+        ProductCategory productCategory = new ProductCategory();
+        productCategory.setId(categoryDTO.getId());
+        return productCategory;
     }
 }

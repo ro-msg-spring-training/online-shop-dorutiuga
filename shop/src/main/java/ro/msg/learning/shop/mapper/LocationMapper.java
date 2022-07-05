@@ -15,12 +15,12 @@ public class LocationMapper {
     }
 
     public static Location fromDtoToEntity(LocationDTO locationDTO) {
-        return new Location(
-                locationDTO.getName(),
-                locationDTO.getAddressCountry(),
-                locationDTO.getAddressCity(),
-                locationDTO.getAddressCounty(),
-                locationDTO.getAddressStreet()
-        );
+        Location location = new Location();
+        location.setName(locationDTO.getName());
+        location.setAddressCountry(locationDTO.getAddressCountry());
+        location.setAddressCity(locationDTO.getAddressCity());
+        location.setAddressCounty(locationDTO.getAddressCounty());
+        location.setAddressStreet(locationDTO.getAddressStreet());
+        return location;
     }
 }

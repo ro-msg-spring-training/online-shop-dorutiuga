@@ -9,5 +9,4 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SupplierDTO {
     private Integer id;
-    private String name;
 }

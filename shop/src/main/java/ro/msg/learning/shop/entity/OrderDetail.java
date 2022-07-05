@@ -25,10 +25,4 @@ public class OrderDetail extends BaseEntity {
     @Column(name = "quantity")
     private int quantity;
 
-    public OrderDetail(Integer productId, Integer quantity) {
-        super();
-        super.setId(productId);
-        this.quantity = quantity;
-
-    }
 }

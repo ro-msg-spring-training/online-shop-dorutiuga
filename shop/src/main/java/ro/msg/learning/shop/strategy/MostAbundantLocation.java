@@ -16,16 +16,16 @@ public class MostAbundantLocation implements LocationStrategy {
     @Override
     public List<Stock> findLocation(Orders orders) {
 
-        List<Stock> locationStock = new ArrayList<>();
-        orders.getOrderedProducts().forEach(product -> {
-            List<Stock> stocks = stockRepository.findLocationByProductAndQuantity(product.getId(), product.getQuantity());
+        List<Stock> stockLocation = new ArrayList<>();
+        orders.getOrderedProducts().forEach(orderDetail -> {
+            List<Stock> stocks = stockRepository.findLocationByProductAndQuantity(orderDetail.getProduct().getId(), orderDetail.getQuantity());
             if (stocks.isEmpty()) {
-                throw new OutOfStockException(product.getId());
+                throw new OutOfStockException(orderDetail.getProduct().getId());
             }
             //because we query the products ordered by quantity(desc)we can now select the first stock to be the most abundant
             Stock stock = stocks.get(0);
-            locationStock.add(new Stock(stock.getLocation(), stock.getProduct(), stock.getQuantity()));
+            stockLocation.add(new Stock(stock.getLocation(), stock.getProduct(), stock.getQuantity()));
         });
-        return locationStock;
+        return stockLocation;
     }
 }

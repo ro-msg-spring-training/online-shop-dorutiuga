@@ -29,6 +29,7 @@ public class ProductMapper {
                 CategoryMapper.fromDtoToEntity(productDTO.getProductCategory()),
                 productDTO.getImageUrl(),
                 SupplierMapper.fromDtoToEntity(productDTO.getSupplier())
-                );
+        );
     }
 }
+
