@@ -21,30 +21,25 @@ public class ProductService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
     private final ProductRepository productRepository;
 
-    public List<ProductDTO> getAllProducts() {
-        return productRepository.findAll()
-                .stream()
-                .map(ProductMapper::fromEntityToDto)
-                .collect(Collectors.toList());
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+
     }
 
-    public ProductDTO updateProductById(Integer id, ProductDTO updateProduct) {
+    public Product updateProductById(Integer id, Product updateProduct) {
         Optional<Product> productToUpdate = productRepository.findById(id);
-        ProductDTO result = null;
+        Product result = null;
         if (productToUpdate.isPresent()) {
-
             Product toUpdate = productToUpdate.get();
-
             toUpdate.setName(updateProduct.getName());
             toUpdate.setDescription(updateProduct.getDescription());
             toUpdate.setPrice(updateProduct.getPrice());
             toUpdate.setWeight(updateProduct.getWeight());
             toUpdate.setImageUrl(updateProduct.getImageUrl());
-            toUpdate.setProductCategory(CategoryMapper.fromDtoToEntity(updateProduct.getProductCategory()));
-            toUpdate.setSupplier(SupplierMapper.fromDtoToEntity(updateProduct.getSupplier()));
+            toUpdate.setProductCategory(updateProduct.getProductCategory());
+            toUpdate.setSupplier(updateProduct.getSupplier());
+            result = productRepository.save(toUpdate);
 
-            Product updated = productRepository.save(toUpdate);
-            result = ProductMapper.fromEntityToDto(updated);
         }
         return result;
     }
@@ -54,19 +49,18 @@ public class ProductService {
     }
 
 
-    public final ProductDTO getProductById(Integer id) {
+    public final Product getProductById(Integer id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
         if (optionalProduct.isEmpty()) {
             LOGGER.error("The Product with" + id + " does not exist");
         }
-        return ProductMapper.fromEntityToDto(optionalProduct.get());
+        return optionalProduct.get();
 
     }
 
-    public final ProductDTO createProduct(ProductDTO productDTO) {
-        Product product = ProductMapper.fromDtoToEntity(productDTO);
-        Product savedProduct = productRepository.save(product);
-        return ProductMapper.fromEntityToDto(savedProduct);
+    public final Product createProduct(Product product) {
+
+        return productRepository.save(product);
     }
 
 }

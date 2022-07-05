@@ -6,9 +6,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.msg.learning.shop.dto.ProductDTO;
+import ro.msg.learning.shop.entity.Product;
+import ro.msg.learning.shop.mapper.ProductMapper;
 import ro.msg.learning.shop.service.ProductService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,26 +22,30 @@ public class ProductController {
 
     @GetMapping()
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
-        List<ProductDTO> productDTOs = productService.getAllProducts();
-        return new ResponseEntity<>(productDTOs, HttpStatus.OK);
+        List<Product> products = productService.getAllProducts();
+        List<ProductDTO> productDTOS = products.stream().map(ProductMapper::fromEntityToDto).collect(Collectors.toList());
+        return new ResponseEntity<>(productDTOS, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Integer id) {
-        ProductDTO productToFind = productService.getProductById(id);
+        Product product = productService.getProductById(id);
+        ProductDTO productToFind = ProductMapper.fromEntityToDto(product);
         return new ResponseEntity<>(productToFind, HttpStatus.OK);
     }
 
     @PostMapping("/add")
     public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
-        ProductDTO productToAdd = productService.createProduct(productDTO);
+        Product product = productService.createProduct(ProductMapper.fromDtoToEntity(productDTO));
+        ProductDTO productToAdd = ProductMapper.fromEntityToDto(product);
         return new ResponseEntity<>(productToAdd, HttpStatus.OK);
     }
 
     @PostMapping("/update/{id}")
     public ResponseEntity<ProductDTO> updateProductById(@PathVariable Integer id, @RequestBody ProductDTO productToUpdate) {
-        ProductDTO product = productService.updateProductById(id, productToUpdate);
-        return new ResponseEntity<>(product, HttpStatus.OK);
+        Product product = productService.updateProductById(id, ProductMapper.fromDtoToEntity(productToUpdate));
+        ProductDTO productDTO = ProductMapper.fromEntityToDto(product);
+        return new ResponseEntity<>(productDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
