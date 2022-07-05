@@ -1,6 +1,7 @@
 package ro.msg.learning.shop.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -12,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "Customer")
 @Data
-public class Customer extends BaseEntity{
+public class Customer extends BaseEntity {
     @Column(name = "firstName")
     private String firstName;
     @Column(name = "lastName")
@@ -23,7 +24,7 @@ public class Customer extends BaseEntity{
     private String password;
     @Column(name = "emailAddress")
     private String emailAddress;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "customer")
     private List<Orders> orders;
 }

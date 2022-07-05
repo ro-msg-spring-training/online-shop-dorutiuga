@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Entity
 @Data
 @Table(name = "Revenue")
-public class Revenue extends BaseEntity{
+public class Revenue extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "locationId")

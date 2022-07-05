@@ -1,14 +1,18 @@
 package ro.msg.learning.shop.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Data
 @Entity
+@Builder
 @Table(name = "Product")
-
+@AllArgsConstructor
+@Setter
+@Getter
+@NoArgsConstructor
 public class Product extends BaseEntity {
     @Column(name = "name")
     private String name;
@@ -18,10 +22,10 @@ public class Product extends BaseEntity {
     private double price;
     @Column(name = "weight")
     private double weight;
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "categoryId")
     private ProductCategory productCategory;
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "supplierId")
     private Supplier supplier;
 
@@ -33,4 +37,18 @@ public class Product extends BaseEntity {
 
     @OneToMany(mappedBy = "product")
     private List<OrderDetail> orderDetails;
+
+
+    public Product(String name, String description, double price, double weight, ProductCategory productCategory, String imageUrl, Supplier supplier) {
+        super();
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.weight = weight;
+        this.productCategory = productCategory;
+        this.imageUrl = imageUrl;
+        this.supplier = supplier;
+    }
+
+
 }

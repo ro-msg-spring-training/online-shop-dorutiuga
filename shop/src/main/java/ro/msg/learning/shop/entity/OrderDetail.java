@@ -1,13 +1,19 @@
 package ro.msg.learning.shop.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name ="OrderDetail")
-public class OrderDetail extends  BaseEntity{
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "OrderDetail")
+public class OrderDetail extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "orderId")
     private Orders order;
@@ -18,4 +24,5 @@ public class OrderDetail extends  BaseEntity{
 
     @Column(name = "quantity")
     private int quantity;
+
 }

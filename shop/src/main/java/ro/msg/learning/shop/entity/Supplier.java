@@ -1,6 +1,8 @@
 package ro.msg.learning.shop.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,11 +12,14 @@ import java.util.List;
 
 @Entity
 @Data
+@AllArgsConstructor
 @Table(name = "Supplier")
-public class Supplier extends BaseEntity{
+@NoArgsConstructor
+public class Supplier extends BaseEntity {
     @Column(name = "name")
     private String name;
 
     @OneToMany(mappedBy = "supplier")
     private List<Product> products;
+
 }

@@ -35,21 +35,10 @@ insert into customer (emailAddress, firstName, lastName, password, username) val
 insert into customer (emailAddress, firstName, lastName, password, username) values ('test4@tinyurl.com', 'Alex', 'Sack', 'test4', 'test4');
 
 
-
-insert into orders (addressCity, addressCountry, addressStreet, createdAt, customerId) values ('Roma', 'Italy', '158 Saint Paul Pass', '2019-12-01 3:20:07', 1);
-insert into orders (addressCity, addressCountry, addressStreet, createdAt, customerId) values ('New Jersey', 'United States', '1362 Old Mount Ave', '2019-06-19 17:51:27', 4);
-insert into orders (addressCity, addressCountry, addressStreet, createdAt, customerId) values ('Bektas', 'Indonesia', '96360 West Java Place', '2019-08-27 09:40:26', 3);
-insert into orders (addressCity, addressCountry, addressStreet, createdAt, customerId) values ('Ontario', 'Canada', '10 Ave Saint Marcelo', '2019-08-07 12:34:16', 2);
-
-
-insert into revenue (date, sum, locationId) values ('2019-03-02 ', 25.19, 1);
-insert into revenue (date, sum, locationId) values ('2019-09-23 ', 17.68, 3);
-insert into revenue (date, sum, locationId) values ('2019-03-03 ', 5.24, 2);
-insert into revenue (date, sum, locationId) values ('2019-12-01 ', 27.5, 4);
+insert into revenue (date, sum, locationId) values ('2019-03-02', 25.19, 1);
+insert into revenue (date, sum, locationId) values ('2019-09-23', 17.68, 3);
+insert into revenue (date, sum, locationId) values ('2019-03-03', 5.24, 2);
+insert into revenue (date, sum, locationId) values ('2019-12-01', 27.5, 4);
 
 
 
-insert into OrderDetail (quantity, orderId, productId) values (5, 2, 3);
-insert into OrderDetail (quantity, orderId, productId) values (8, 1, 4);
-insert into OrderDetail (quantity, orderId, productId) values (1, 3, 1);
-insert into OrderDetail (quantity, orderId, productId) values (1, 4, 2);

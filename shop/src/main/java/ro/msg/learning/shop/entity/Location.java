@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "Location")
+@NoArgsConstructor
 public class Location extends BaseEntity {
 
     @Column(name = "name")
@@ -33,4 +34,5 @@ public class Location extends BaseEntity {
 
     @OneToMany(mappedBy = "location")
     private List<Stock> stocks;
+
 }

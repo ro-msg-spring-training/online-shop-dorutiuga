@@ -1,17 +1,23 @@
 package ro.msg.learning.shop.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
 @Table(name = "Orders")
+@NoArgsConstructor
 public class Orders extends BaseEntity {
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "shippedFrom")
     private Location shippedFrom;
 
@@ -19,8 +25,8 @@ public class Orders extends BaseEntity {
     @JoinColumn(name = "customerId")
     private Customer customer;
 
-    @Column(name = "createdAt")
-    private Timestamp createdAt;
+    @Column(name = "createdAt", columnDefinition = "DATE")
+    private LocalDateTime createdAt;
     @Column(name = "addressCountry")
     private String addressCountry;
     @Column(name = "addressCity")
@@ -31,5 +37,7 @@ public class Orders extends BaseEntity {
     private String addressStreet;
 
     @OneToMany(mappedBy = "order")
-    private List<OrderDetail> orderDetailList;
+    private List<OrderDetail> orderedProducts;
+
+
 }
