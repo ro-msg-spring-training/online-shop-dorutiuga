@@ -17,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/csv-export")
 public class StockController {
+
     private final StockService stockService;
 
     @GetMapping(value = "/{locationId}", produces = {"text/csv"})

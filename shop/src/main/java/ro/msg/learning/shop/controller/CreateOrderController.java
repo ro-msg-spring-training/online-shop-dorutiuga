@@ -14,13 +14,13 @@ import ro.msg.learning.shop.service.OrderService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/orders")
+@RequestMapping(value = "/orders", produces = {"application/json"})
 public class CreateOrderController {
 
     private final OrderService orderService;
 
 
-    @PostMapping("/create")
+    @PostMapping(value = "/create", produces = {"application/json"})
     public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderDTO orderDTO) {
         Orders orderToCreate = orderService.createOrder(OrderMapper.fromDtoToEntity(orderDTO));
         OrderDTO orders = OrderMapper.fromEntityToDto(orderToCreate);

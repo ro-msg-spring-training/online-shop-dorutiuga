@@ -20,35 +20,35 @@ public class ProductController {
     @Autowired
     private final ProductService productService;
 
-    @GetMapping()
+    @GetMapping(produces = {"application/json"})
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
         List<Product> products = productService.getAllProducts();
         List<ProductDTO> productDTOS = products.stream().map(ProductMapper::fromEntityToDto).collect(Collectors.toList());
         return new ResponseEntity<>(productDTOS, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}",produces = {"application/json"})
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Integer id) {
         Product product = productService.getProductById(id);
         ProductDTO productToFind = ProductMapper.fromEntityToDto(product);
         return new ResponseEntity<>(productToFind, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
+    @PostMapping(value = "/add", produces = {"application/json"})
     public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
         Product product = productService.createProduct(ProductMapper.fromDtoToEntity(productDTO));
         ProductDTO productToAdd = ProductMapper.fromEntityToDto(product);
         return new ResponseEntity<>(productToAdd, HttpStatus.OK);
     }
 
-    @PostMapping("/update/{id}")
+    @PostMapping(value = "/update/{id}", produces = {"application/json"})
     public ResponseEntity<ProductDTO> updateProductById(@PathVariable Integer id, @RequestBody ProductDTO productToUpdate) {
         Product product = productService.updateProductById(id, ProductMapper.fromDtoToEntity(productToUpdate));
         ProductDTO productDTO = ProductMapper.fromEntityToDto(product);
         return new ResponseEntity<>(productDTO, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping(value = "/delete/{id}", produces = {"application/json"})
     public void deleteProductById(@PathVariable Integer id) {
         productService.deleteProductById(id);
     }
