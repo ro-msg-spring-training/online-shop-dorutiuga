@@ -3,7 +3,7 @@ package ro.msg.learning.shop.strategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ro.msg.learning.shop.entity.Orders;
 import ro.msg.learning.shop.entity.Stock;
-import ro.msg.learning.shop.exceptions.OutOfStockException;
+import ro.msg.learning.shop.exception.OutOfStockException;
 import ro.msg.learning.shop.repository.StockRepository;
 
 import java.util.ArrayList;

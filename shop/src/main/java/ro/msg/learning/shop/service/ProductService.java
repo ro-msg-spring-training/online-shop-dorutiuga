@@ -4,16 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ro.msg.learning.shop.dto.ProductDTO;
 import ro.msg.learning.shop.entity.Product;
-import ro.msg.learning.shop.mapper.CategoryMapper;
-import ro.msg.learning.shop.mapper.ProductMapper;
-import ro.msg.learning.shop.mapper.SupplierMapper;
 import ro.msg.learning.shop.repository.ProductRepository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
