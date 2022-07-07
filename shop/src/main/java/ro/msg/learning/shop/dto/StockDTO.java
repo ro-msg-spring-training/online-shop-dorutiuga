@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-@JsonPropertyOrder({"locationId", "productId", "quantity"})
+@JsonPropertyOrder({"locationName", "productName", "quantity"})
 public class StockDTO {
 
-    private Integer quantity;
     private String locationName;
     private String productName;
+    private Integer quantity;
 }
