@@ -1,4 +1,4 @@
-package ro.msg.learning.shop.exceptions;
+package ro.msg.learning.shop.exception;
 
 public class OrderCreationException extends RuntimeException {
     public OrderCreationException(String message) {
