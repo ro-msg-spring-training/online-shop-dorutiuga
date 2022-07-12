@@ -18,11 +18,11 @@ public class SingleLocation implements LocationStrategy {
     @Override
     public List<Stock> findLocation(Orders order) {
         Map<Integer, List<Stock>> locations = new HashMap<>();
-        order.getOrderedProducts().forEach(product -> {
+        order.getOrderedProducts().forEach(orderDetail -> {
                     List<Stock> stocks = stockRepository
-                            .findLocationByProductAndQuantity(product.getId(), product.getQuantity());
+                            .findLocationByProductAndQuantity(orderDetail.getProduct().getId(), orderDetail.getQuantity());
                     if (stocks.isEmpty()) {
-                        throw new OutOfStockException(product.getId());
+                        throw new OutOfStockException(orderDetail.getId());
                     }
 
                     stocks.forEach(stock -> {

@@ -1,18 +1,19 @@
 package ro.msg.learning.shop.entity;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Data
 @Entity
-@Builder
-@Table(name = "Product")
 @AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "Product")
 @Setter
 @Getter
-@NoArgsConstructor
+@SuperBuilder
 public class Product extends BaseEntity {
     @Column(name = "name")
     private String name;

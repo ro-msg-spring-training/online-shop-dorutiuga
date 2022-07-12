@@ -1,0 +1,88 @@
+{
+  "info": {
+    "_postman_id": "9d6a39ec-9eda-4b1b-81ee-ca9f25ab9c0b",
+    "name": "ShopApplicationPostmanTests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "21482769"
+  },
+  "item": [
+    {
+      "name": "Order Creation successfully",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "csv-export",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Order Creation with failure due to missing Stock",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Cannot create order due to missing stock', function () {\r",
+              "    pm.response.to.have.status(500)\r",
+              "})\r",
+              "\r",
+              "pm.test(\"Fail to create order \", function(){\r",
+              "    const data = pm.response.json;\r",
+              "    pm.expect(data.message).to.contain(\"The product 2 is not in our stock right now\")\r",
+              "})\r",
+              "// pm.test(\"Fail to create order \", () => {\r",
+              "//     try{\r",
+              "//         pm.expect.fail(\"The product 2 is not in our stock right now\")\r",
+              "//     }catch(e){\r",
+              "//         throw new Error(e.message)\r",
+              "//     }\r",
+              "//     }); \r",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"productsOrdered\": [{\r\n        \"productId\": 2,\r\n        \"quantity\": 1\r\n    }\r\n   ],\r\n    \"createdAt\": \"\",\r\n    \"deliveryAddress\": {\r\n        \"addressCountry\": \"someCountry\",\r\n        \"addressCounty\": \"someCounty\",\r\n        \"addressCity\": \"someCity\",\r\n        \"addressStreet\": \"someStreet\"\r\n    }\r\n    }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8080/orders/create",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "orders",
+            "create"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "OrderCreation with failure due to unknown id",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    }
+  ]
+}

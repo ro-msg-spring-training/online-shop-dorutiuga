@@ -18,7 +18,10 @@ public class ProductService {
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();
+    }
 
+    public void deleteAllProducts() {
+        productRepository.deleteAll();
     }
 
     public Product updateProductById(Integer id, Product updateProduct) {
