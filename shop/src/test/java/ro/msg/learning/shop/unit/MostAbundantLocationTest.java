@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import ro.msg.learning.shop.TestBase;
 import ro.msg.learning.shop.entity.OrderDetail;
 import ro.msg.learning.shop.entity.Orders;
 import ro.msg.learning.shop.entity.Stock;

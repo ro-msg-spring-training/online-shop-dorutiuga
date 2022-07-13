@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
+import ro.msg.learning.shop.TestBase;
 import ro.msg.learning.shop.entity.OrderDetail;
 import ro.msg.learning.shop.entity.Orders;
 import ro.msg.learning.shop.entity.Stock;

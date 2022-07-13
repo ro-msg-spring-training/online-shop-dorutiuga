@@ -1,8 +1,13 @@
-package ro.msg.learning.shop.integration;
+package ro.msg.learning.shop;
 
 import ro.msg.learning.shop.entity.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public class TestBase {
+    protected Customer customer = Customer.builder().id(1).username("test").password("test").emailAddress("test@gmail.com").lastName("test").firstName("test").build();
 
     protected ProductCategory productCategory = ProductCategory.builder().id(1).name("Jewelry").description("For more than a century, Swarovski has put the sparkle in gowns, tiaras, jewelry, sculptures, and even luxury cars.").build();
     protected Supplier supplier = Supplier.builder().id(1).name("Charter Supply").build();
@@ -13,6 +18,8 @@ public class TestBase {
     protected Stock stock = Stock.builder().id(1).location(location).product(product).quantity(10).build();
     protected Stock stock2 = Stock.builder().id(2).location(location2).product(product2).quantity(100).build();
     protected Stock stock3 = Stock.builder().location(location).product(product2).quantity(10).build();
+
+    protected List<Stock> stocks = Stream.of(stock, stock2).collect(Collectors.toList());
 
 
 }

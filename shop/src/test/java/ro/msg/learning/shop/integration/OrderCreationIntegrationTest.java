@@ -1,103 +1,122 @@
 package ro.msg.learning.shop.integration;
 
-import org.junit.Assert;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.util.NestedServletException;
 import ro.msg.learning.shop.ShopApplication;
-import ro.msg.learning.shop.controller.TestController;
-import ro.msg.learning.shop.entity.Customer;
-import ro.msg.learning.shop.entity.OrderDetail;
-import ro.msg.learning.shop.entity.Orders;
-import ro.msg.learning.shop.exception.OutOfStockException;
-import ro.msg.learning.shop.service.CustomerService;
-import ro.msg.learning.shop.service.OrderService;
+import ro.msg.learning.shop.TestBase;
+import ro.msg.learning.shop.dto.AddressDTO;
+import ro.msg.learning.shop.dto.OrderDTO;
+import ro.msg.learning.shop.dto.OrderDetailDTO;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @RunWith(SpringRunner.class)
-//@SpringBootTest
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK,
         classes = ShopApplication.class)
 @ActiveProfiles("test")
+@AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
 
 public class OrderCreationIntegrationTest extends TestBase {
+
     @Autowired
-    private CustomerService customerService;
-    @Autowired
-    private OrderService orderService;
-    @Autowired
-    TestController testController;
+    public MockMvc mcv;
 
     @BeforeAll
-    public void init() {
-        testController.populate();
+    public void init() throws Exception {
+        mcv.perform(get("/test/populate")).andExpect(status().isOk());
+
     }
 
     @AfterAll
-    public void after() {
-        testController.clear();
+    public void after() throws Exception {
+        mcv.perform(get("/test/clear")).andExpect(status().isOk());
+
     }
 
     @Test
-    public void createOrderTestSuccessfully() {
-        OrderDetail order = new OrderDetail();
-        order.setProduct(product);
+    public void createOrderTestSuccessfully() throws Exception {
+        OrderDetailDTO order = new OrderDetailDTO();
+        order.setProductId(product.getId());
         order.setQuantity(10);
-        OrderDetail order2 = new OrderDetail();
-        order2.setProduct(product2);
+        OrderDetailDTO order2 = new OrderDetailDTO();
+        order2.setProductId(product2.getId());
         order2.setQuantity(15);
-        List<OrderDetail> orderDetails = Arrays.asList(
+        List<OrderDetailDTO> orderDetails = Arrays.asList(
                 order, order2
         );
 
-        Customer customer = customerService.findById(1);
-        Orders orders = new Orders();
-        orders.setOrderedProducts(orderDetails);
-        orders.setCreatedAt(LocalDateTime.now());
-        orders.setAddressCounty("someCountry");
-        orders.setAddressCity("someCity");
-        orders.setAddressStreet("someStreet");
-        orders.setAddressCounty("someCounty");
-        orders.setCustomer(customer);
-        Orders orderToTest = orderService.createOrder(orders);
+        AddressDTO address = new AddressDTO();
+        address.setAddressCity("someCity");
+        address.setAddressStreet("someStreet");
+        address.setAddressCounty("someCounty");
+        address.setAddressCounty("someCountry");
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setProductsOrdered(orderDetails);
+        orderDTO.setCreatedAT(LocalDateTime.now());
+        orderDTO.setDeliveryAddress(address);
 
-        Assert.assertNotNull(orderToTest);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        mapper.registerModule(new JavaTimeModule());
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson = ow.writeValueAsString(orderDTO);
+        mcv.perform(post("/orders/create").contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isOk());
     }
 
-    @Test
-    public void createOrderTestFailDueToOutOfStock() {
-        OrderDetail order = new OrderDetail();
-        order.setProduct(product);
+    @Test(expected = NestedServletException.class)
+    public void createOrderTestFailDueToOutOfStock() throws Exception {
+        OrderDetailDTO order = new OrderDetailDTO();
+        order.setProductId(product.getId());
         order.setQuantity(10);
-        OrderDetail order2 = new OrderDetail();
-        order2.setProduct(product2);
-        order2.setQuantity(150);
-        List<OrderDetail> orderDetails = Arrays.asList(
+        OrderDetailDTO order2 = new OrderDetailDTO();
+        order2.setProductId(product2.getId());
+        order2.setQuantity(1500);
+        List<OrderDetailDTO> orderDetails = Arrays.asList(
                 order, order2
         );
 
-        Customer customer = customerService.findById(1);
-        Orders orders = new Orders();
-        orders.setOrderedProducts(orderDetails);
-        orders.setCreatedAt(LocalDateTime.now());
-        orders.setAddressCounty("someCountry");
-        orders.setAddressCity("someCity");
-        orders.setAddressStreet("someStreet");
-        orders.setAddressCounty("someCounty");
-        orders.setCustomer(customer);
-        Throwable exeption = Assert.assertThrows(OutOfStockException.class, () -> orderService.createOrder(orders));
-        Assert.assertEquals("The product " +
-                order2.getProduct().getId() + " is not in our stock right now", exeption.getMessage());
+        AddressDTO address = new AddressDTO();
+        address.setAddressCity("someCity");
+        address.setAddressStreet("someStreet");
+        address.setAddressCounty("someCounty");
+        address.setAddressCounty("someCountry");
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setProductsOrdered(orderDetails);
+        orderDTO.setCreatedAT(LocalDateTime.now());
+        orderDTO.setDeliveryAddress(address);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        mapper.registerModule(new JavaTimeModule());
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson = ow.writeValueAsString(orderDTO);
+
+        mcv.perform(post("/orders/create").contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isOk());
     }
 
 }
