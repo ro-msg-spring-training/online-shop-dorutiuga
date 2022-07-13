@@ -17,9 +17,9 @@ import java.util.Optional;
 @Service
 public class StockService {
     @Autowired
-    private LocationRepository locationRepository;
+    private final LocationRepository locationRepository;
     @Autowired
-    private StockRepository stockRepository;
+    private final StockRepository stockRepository;
 
     public List<Stock> exportStocks(Integer locationId) {
         List<Stock> stocks;
@@ -28,5 +28,13 @@ public class StockService {
             stocks = stockRepository.findByLocationId(locationId);
             return stocks;
         } else throw new NoLocationForStocksException("We can't find the location with id " + locationId);
+    }
+
+    public void createStock(Stock stock) {
+        stockRepository.save(stock);
+    }
+
+    public void deleteAllStocks() {
+        stockRepository.deleteAll();
     }
 }

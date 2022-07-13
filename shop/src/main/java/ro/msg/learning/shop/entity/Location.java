@@ -1,7 +1,9 @@
 package ro.msg.learning.shop.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +15,8 @@ import java.util.List;
 @Entity
 @Table(name = "Location")
 @NoArgsConstructor
+@SuperBuilder
+@AllArgsConstructor
 public class Location extends BaseEntity {
 
     @Column(name = "name")
