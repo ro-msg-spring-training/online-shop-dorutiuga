@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public class CustomerDetails implements UserDetails {
     private Customer customer = null;
-    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+   private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public CustomerDetails(Optional<Customer> optionalCustomer) {
 

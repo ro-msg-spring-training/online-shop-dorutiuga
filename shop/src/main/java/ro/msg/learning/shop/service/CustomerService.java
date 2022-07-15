@@ -38,7 +38,7 @@ public class CustomerService implements UserDetailsService {
         if (customer.isPresent()) {
             return new CustomerDetails(customer);
         }
-        customer.orElseThrow(() -> new UsernameNotFoundException("Not found: " + username));
-        return null;
+        else
+            throw new UsernameNotFoundException("Not found: " + username);
     }
 }
