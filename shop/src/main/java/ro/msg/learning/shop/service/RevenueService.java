@@ -14,10 +14,11 @@ public class RevenueService {
 
     private final RevenueRepository revenueRepository;
 
-    public List<Revenue> allRevenues(){
+    public List<Revenue> allRevenues() {
         return revenueRepository.findAll();
     }
-    public List<Revenue> getRevenuesForAGivenDate(LocalDateTime date){
+
+    public List<Revenue> getRevenuesForAGivenDate(LocalDateTime date) {
         return revenueRepository.findAllByDate(date);
     }
 }

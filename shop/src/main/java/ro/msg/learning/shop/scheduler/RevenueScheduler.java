@@ -1,7 +1,6 @@
 package ro.msg.learning.shop.scheduler;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -25,15 +24,15 @@ import java.util.*;
 public class RevenueScheduler {
 
     @Autowired
-    private  OrdersRepository ordersRepository;
+    private OrdersRepository ordersRepository;
     @Autowired
-    private  ProductRepository productRepository;
+    private ProductRepository productRepository;
     @Autowired
-    private  OrderDetailRepository orderDetailRepository;
+    private OrderDetailRepository orderDetailRepository;
     @Autowired
-    private  LocationRepository locationRepository;
+    private LocationRepository locationRepository;
     @Autowired
-    private   RevenueRepository revenueRepository;
+    private RevenueRepository revenueRepository;
 
     @Scheduled(cron = "0 0 10 * * *")
     @Transactional

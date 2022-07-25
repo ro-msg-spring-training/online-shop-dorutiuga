@@ -37,8 +37,7 @@ public class CustomerService implements UserDetailsService {
         Optional<Customer> customer = customerRepository.findByUsername(username);
         if (customer.isPresent()) {
             return new CustomerDetails(customer);
-        }
-        else
+        } else
             throw new UsernameNotFoundException("Not found: " + username);
     }
 }
