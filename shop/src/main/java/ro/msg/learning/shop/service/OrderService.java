@@ -1,6 +1,7 @@
 package ro.msg.learning.shop.service;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.msg.learning.shop.entity.OrderDetail;
@@ -16,7 +17,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderService {
     @Autowired
     private OrdersRepository ordersRepository;
@@ -46,20 +48,18 @@ public class OrderService {
         ordersRepository.save(order);
 
         List<OrderDetail> orderDetailsProducts = order.getOrderedProducts();
-
         stocks.forEach(stock -> {
             for (OrderDetail orderDetails : orderDetailsProducts) {
 
-                if (orderDetails.getId() == (stock.getProduct().getId())) {
+                if (orderDetails.getProduct().getId() == (stock.getProduct().getId())) {
                     int quantity = stock.getQuantity() - orderDetails.getQuantity();
-
                     Stock stockToUpdate = stockRepository.findByProductAndLocation(stock.getProduct(), stock.getLocation());
                     stockToUpdate.setQuantity(quantity);
+                    orderDetails.setOrder(order);
                     stockRepository.save(stockToUpdate);
                     orderDetailRepository.save(orderDetails);
 
                 }
-
             }
         });
         return order;

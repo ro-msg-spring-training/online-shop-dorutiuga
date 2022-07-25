@@ -19,7 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-   private UserDetailsService userDetailService;
+    private UserDetailsService userDetailService;
 
 
     @Profile("with-basic")
@@ -29,16 +29,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .httpBasic();
+        http.cors().disable().csrf().disable();
     }
 
 
     @Profile("with-form")
     protected void configureWithForm(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/products").permitAll()
+                .antMatchers("/", "/orders").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and().formLogin();
+        http.cors().disable().csrf().disable();
     }
 
     @Bean
@@ -50,5 +52,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoder());
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/**").permitAll().anyRequest().authenticated()
+                .and().formLogin().permitAll().and().logout().permitAll().and().httpBasic();
+        http.cors().disable().csrf().disable();
     }
 }
